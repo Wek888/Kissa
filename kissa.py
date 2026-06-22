@@ -30,3 +30,23 @@ def sanitize(text):
     text = re.sub(r"\s+", " ", text)
 
     return text.strip()
+
+def get_info(url):
+    cmd = [
+        "yt-dlp",
+        "--dump-single-json",
+        "--flat-playlist",
+        url
+    ]
+
+    result = subprocess.run(
+        cmd,
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode != 0:
+        print(result.stderr, file=sys.stderr)
+        sys.exit(1)
+
+    return json.loads(result.stdout)

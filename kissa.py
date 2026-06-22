@@ -144,7 +144,7 @@ def download(url, root_dir, audio_format):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="YouTube Music Downloader"
+        description="Kissa - Simple YouTube Music Downloader"
     )
 
     parser.add_argument(

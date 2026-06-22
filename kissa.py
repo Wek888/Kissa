@@ -88,7 +88,7 @@ def detect_album_info(info):
         year
     )
 
-def download(url, root_dir, audio_format):
+def download(url, root_dir, audio_format,browser_cookies):
     info = get_info(url)
 
     artist, album, year = detect_album_info(info)
@@ -136,6 +136,12 @@ def download(url, root_dir, audio_format):
         url,
     ]
 
+    if browser_cookies:
+        cmd.extend([
+            "--cookies-from-browser",
+            browser_cookies
+    ])
+
     result = subprocess.run(cmd)
 
     if result.returncode != 0:
@@ -174,6 +180,20 @@ def main():
         help="Формат аудио"
     )
 
+    parser.add_argument(
+    "--browser-cookies",
+    choices=[
+        "firefox",
+        "chrome",
+        "chromium",
+        "brave",
+        "edge",
+        "opera",
+        "vivaldi"
+    ],
+    help="Импортировать cookies из браузера"
+    )
+
     args = parser.parse_args()
 
     check_dependencies()
@@ -183,7 +203,8 @@ def main():
     download(
         args.url,
         root_dir,
-        args.format
+        args.format,
+        args.browser_cookies
     )
 
 

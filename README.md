@@ -45,7 +45,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/yourusername/musicdl.git
-cd musicdl
+cd Kissa
 ```
 
 Make the script executable:

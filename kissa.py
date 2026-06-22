@@ -19,3 +19,14 @@ def check_dependencies():
             file=sys.stderr
         )
         sys.exit(1)
+
+def sanitize(text):
+    if not text:
+        return "Unknown"
+
+    text = str(text)
+
+    text = re.sub(r'[<>:"/\\|?*]', "_", text)
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()

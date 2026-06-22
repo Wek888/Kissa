@@ -85,3 +85,59 @@ def detect_album_info(info):
         sanitize(album),
         year
     )
+
+def download(url, root_dir, audio_format):
+    info = get_info(url)
+
+    artist, album, year = detect_album_info(info)
+
+    album_dir = root_dir / artist / f"{album} ({year})"
+    album_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"\nКаталог: {album_dir}\n")
+
+    output_template = str(
+        album_dir /
+        "%(track_number,playlist_index|1)02d - %(title)s.%(ext)s"
+    )
+
+    cmd = [
+        "yt-dlp",
+
+        "-f",
+        "bestaudio/best",
+
+        "--extract-audio",
+
+        "--audio-format",
+        audio_format,
+
+        "--audio-quality",
+        "0",
+
+        "--embed-thumbnail",
+
+        "--embed-metadata",
+
+        "--add-metadata",
+
+        "--write-thumbnail",
+
+        "--convert-thumbnails",
+        "jpg",
+
+        "--no-overwrites",
+
+        "-o",
+        output_template,
+
+        url,
+    ]
+
+    result = subprocess.run(cmd)
+
+    if result.returncode != 0:
+        sys.exit(result.returncode)
+
+    print("\nГотово.")
+    print(f"Файлы сохранены в: {album_dir}")

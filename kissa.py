@@ -141,3 +141,45 @@ def download(url, root_dir, audio_format):
 
     print("\nГотово.")
     print(f"Файлы сохранены в: {album_dir}")
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="YouTube Music Downloader"
+    )
+
+    parser.add_argument(
+        "url",
+        help="Ссылка на трек, альбом или плейлист YouTube Music"
+    )
+
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="Music",
+        help="Корневой каталог"
+    )
+
+    parser.add_argument(
+        "--format",
+        default="mp3",
+        choices=[
+            "mp3",
+            "m4a",
+            "opus",
+            "flac",
+            "wav"
+        ],
+        help="Формат аудио"
+    )
+
+    args = parser.parse_args()
+
+    check_dependencies()
+
+    root_dir = Path(args.output).expanduser()
+
+    download(
+        args.url,
+        root_dir,
+        args.format
+    )

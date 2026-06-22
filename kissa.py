@@ -183,3 +183,7 @@ def main():
         root_dir,
         args.format
     )
+
+
+if __name__ == "__main__":
+    main()

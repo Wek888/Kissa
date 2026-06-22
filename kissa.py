@@ -50,3 +50,38 @@ def get_info(url):
         sys.exit(1)
 
     return json.loads(result.stdout)
+
+def detect_album_info(info):
+    artist = (
+        info.get("album_artist")
+        or info.get("artist")
+        or info.get("uploader")
+        or "Unknown Artist"
+    )
+
+    album = (
+        info.get("album")
+        or info.get("title")
+        or "Unknown Album"
+    )
+
+    year = (
+        str(info.get("release_year"))
+        if info.get("release_year")
+        else None
+    )
+
+    if not year:
+        release_date = info.get("release_date")
+
+        if release_date and len(release_date) >= 4:
+            year = release_date[:4]
+
+    if not year:
+        year = "0000"
+
+    return (
+        sanitize(artist),
+        sanitize(album),
+        year
+    )

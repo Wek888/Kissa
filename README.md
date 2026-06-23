@@ -108,7 +108,7 @@ Chromium:
 
 ## Output Structure
 
-MusicDL automatically organizes downloads into a music library structure:
+Kissa automatically organizes downloads into a music library structure:
 
 ```text
 Music/
